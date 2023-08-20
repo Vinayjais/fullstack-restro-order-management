@@ -28,3 +28,31 @@ exports.postOrderData = (req,res,next) =>{
         .catch( err => console.log(err));
 
  };
+
+
+ exports.getOrders = async (req,res) => {
+     
+    try {
+
+        const  orders = await Order.findAll();
+           res.status(200).json({allOrders : orders});
+      
+   } catch (error) {
+       console.log('Get orders failings', JSON.stringify(error));
+       res.status(500).json({error:error});
+   }
+
+ };
+
+ exports.deleteOrder = async (req, res) => {
+    try {
+        const orderId = req.params.id;
+        console.log(orderId);
+        await Order.destroy({where : { id : orderId}});
+        res.status(200);
+      
+   } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+   } 
+ };
